@@ -9,7 +9,7 @@ import math as m
 import traceback
 from DAVID_link import *
 
-ins_link = INS(COM='/dev/ttyUSB0')
+ins_link = INS(COM='/dev/ttyUSB0',baud = 921600)
 
 imu_quat = None
 A = np.zeros(3)
@@ -24,6 +24,7 @@ fix_type = 1
 def main():
 	global ins_link
 	ins_link.set_origin()
+	r = rospy.Rate(100)
 	while not rospy.is_shutdown():
 		state = ins_link.state
 		imu = ins_link.IMU
@@ -54,7 +55,7 @@ def main():
 		drive_msg.drive.speed = control[3]
 		control_pub.publish(drive_msg)
 
-		time.sleep(0.02)
+		r.sleep()
 
 
 

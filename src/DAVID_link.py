@@ -6,8 +6,8 @@ import math as m
 import threading
 
 class INS(object):
-	def __init__(self, COM='/dev/ttyUSB0'):
-		self.BAUD = 230400
+	def __init__(self, COM='/dev/ttyUSB0',baud = 921600):
+		self.BAUD = baud
 		self.com = com_handler()
 		self.OFFSET_ID = 0x0001
 		self.COMMAND_ID = 0X0002
@@ -50,7 +50,7 @@ class INS(object):
 		self.IMU = np.zeros(9)
 		self.OPFlow = np.zeros(4)
 		self.UID = 0x0000
-		self.sleep_time = 0.01
+		self.sleep_time = 0.001
 
 		if(not self.connect(self.BAUD,COM)):
 			print("error: com device not connected")
@@ -142,10 +142,9 @@ class INS(object):
 			num_bytes = self.com.check_recv()
 			if(num_bytes>=4):
 				while(num_bytes<68):
-					time.sleep(0.001)
+					# time.sleep(0.00001)
 					num_bytes = self.com.check_recv()
 				message = self.com.read(68)
-				self.com.clear()
 
 				START_SIGN = message[0]
 				ID = message[1]
