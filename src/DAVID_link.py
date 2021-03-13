@@ -18,6 +18,8 @@ class INS(object):
 		self.CALIB_ID = 0x000A
 		self.CLEAR_ID = 0x0008
 		self.SET_ORIGIN_ID = 0x000B
+		self.VEL_ID = 0x0017
+		self.POS_ID = 0x0018
 		self.REC_ID_1 = 0x000C
 		self.REC_ID_0 = 0x00FC
 		self.REC_DEBUG_ID_1 = 0x000D
@@ -51,6 +53,7 @@ class INS(object):
 		self.OPFlow = np.zeros(4)
 		self.UID = 0x0000
 		self.sleep_time = 0.001
+		self.data_in = np.zeros(4)
 
 		if(not self.connect(self.BAUD,COM)):
 			print("error: com device not connected")
@@ -80,6 +83,13 @@ class INS(object):
 	def set_standby(self):
 		self.Tx_MODE = 0x01
 
+	def send_vel_BF(self,V):
+		self.data_in = V
+		self.Tx_ID = self.VEL_ID
+	def send_pos(self,P):
+		self.data_in = P
+		self.Tx_ID = self.POS_ID
+
 	def send_heartbeat(self):
 		message_id = np.array([self.START_ID,self.Tx_msg_len,self.Tx_ID,self.Tx_MODE],dtype = 'int16') 
 		if(self.Tx_ID == self.WP_ID or self.point_count>0):
@@ -92,8 +102,14 @@ class INS(object):
 			print(message)
 			message_id = np.concatenate((message_id,message),axis=0)
 		if(self.point_count<0 and self.Tx_ID == self.WP_ID):
-			# set_standby()
 			self.Tx_ID = self.STATE_ID
+		if(self.Tx_ID == self.VEL_ID or self.Tx_ID == self.POS_ID):
+			X = self.data_in.tobytes()
+			X = np.frombuffer(X,dtype='int16')
+			message_id = np.concatenate((message_id,X),axis=0)
+			X = X.tobytes()
+			X = np.frombuffer(X,dtype='float32')
+			print(X)
 		self.com.send(message_id)
 		if(self.Tx_MODE == 0x07):
 			self.set_standby()
@@ -180,7 +196,7 @@ class INS(object):
 						for i in range(4):
 							self.OPFlow[i] = float(bufint8[i])*0.01
 
-					if(time.time() - self.send_timer>=0.1): # regulate heartbeat at 10 hz
+					if(time.time() - self.send_timer>=0.02): # regulate heartbeat at 100 hz
 						self.send_heartbeat()
 						self.Tx_ID = self.STATE_ID #reset to state ID. I don't want it to continuously register waypoints
 

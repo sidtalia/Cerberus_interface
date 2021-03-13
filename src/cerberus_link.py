@@ -9,14 +9,39 @@ import math as m
 import traceback
 from DAVID_link import *
 
+
+
 ins_link = INS(COM='/dev/ttyUSB0',baud = 921600)
 
 imu_quat = None
 A = np.zeros(3)
 G = np.zeros(3)
+def vel_BF_cb(data):
+	global ins_link
+	vx = data.twist.twist.linear.x
+	vy = data.twist.twist.linear.y
+	vz = data.twist.twist.linear.z
+	# TODO: replace with something to convert vio from any orientation to any orientation.
+	th = 20/57.3
+	V = np.zeros(4,dtype='float32')
+	V[0] = -vy
+	V[1] = vx*m.cos(th) - vz*m.sin(th)
+	V[2] = vx*m.sin(th) + vz*m.cos(th)
+	V[3] = data.twist.covariance[0]
+	ins_link.send_vel_BF(V) # body frame xyz is front right down
+
+def pos_cb(data):
+	global ins_link
+	P = np.zeros(4,dtype='float32')
+	P[0] = data.pose.position.x
+	P[1] = data.pose.position.y
+	P[2] = data.pose.position.z
+	P[3] = data.pose.covariance[0]
+	ins_link.send_pos(P)
 # imu_pub = rospy.Publisher("imu/cerberus", Imu, queue_size=10)
 odom_pub = rospy.Publisher("odom/cerberus",Odometry,queue_size=10)
-control_pub = rospy.Publisher("/car/mux/ackermann_cmd_mux/input/navigation", AckermannDriveStamped)
+control_pub = rospy.Publisher("/car/mux/ackermann_cmd_mux/input/navigation", AckermannDriveStamped,queue_size =10)
+vio_sub = rospy.Subscriber("/car/t265/odom/sample",Odometry, vel_BF_cb)
 speed_variance = 1000
 position_variance = 1000
 fix_type = 1
