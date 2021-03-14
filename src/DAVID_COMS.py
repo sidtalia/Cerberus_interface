@@ -17,7 +17,7 @@ class com_handler():
 
 	def clear(self):
 		try:
-			self.read(64)
+			self.read(68)
 		except:
 			pass
 

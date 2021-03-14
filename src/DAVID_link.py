@@ -157,9 +157,13 @@ class INS(object):
 		try:
 			num_bytes = self.com.check_recv()
 			if(num_bytes>=4):
-				while(num_bytes<68):
+				time_stamp = time.time()
+				while(num_bytes<68 and time.time()-time_stamp<0.1):
 					# time.sleep(0.00001)
 					num_bytes = self.com.check_recv()
+				if(time.time()-time_stamp >= 0.1):
+					self.com.clear()
+					return
 				message = self.com.read(68)
 
 				START_SIGN = message[0]
