@@ -109,7 +109,6 @@ class INS(object):
 			message_id = np.concatenate((message_id,X),axis=0)
 			X = X.tobytes()
 			X = np.frombuffer(X,dtype='float32')
-			print(X)
 		self.com.send(message_id)
 		if(self.Tx_MODE == 0x07):
 			self.set_standby()

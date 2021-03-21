@@ -11,7 +11,7 @@ from DAVID_link import *
 
 
 
-ins_link = INS(COM='/dev/ttyUSB0',baud = 921600)
+ins_link = INS(COM='/dev/ttyUSB1',baud = 921600)
 
 imu_quat = None
 A = np.zeros(3)
@@ -19,6 +19,7 @@ G = np.zeros(3)
 vel_time = time.time()
 def vel_BF_cb(data):
 	global ins_link
+	global vel_time
 	vx = data.twist.twist.linear.x
 	vy = data.twist.twist.linear.y
 	vz = data.twist.twist.linear.z
@@ -79,8 +80,8 @@ def main():
 
 		drive_msg = AckermannDriveStamped()
 		drive_msg.header.frame_id=""
-		drive_msg.drive.steering_angle = control[2]
-		drive_msg.drive.speed = control[3]
+		drive_msg.drive.steering_angle = 0.5*control[2]
+		drive_msg.drive.speed = 3*control[3]
 		control_pub.publish(drive_msg)
 
 		r.sleep()

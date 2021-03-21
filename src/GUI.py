@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 plt.ion()
 fig = plt.figure()
 plt.axis('equal')
-import tkinter as tk
-from tkinter import *
+import Tkinter as tk
+from Tkinter import *
 
 log_file_name = 'INS_log_0.npy'
 log_file = []
 
-ins_link = INS(COM='/dev/ttyUSB0')
+ins_link = INS(COM='/dev/ttyUSB1')
 
 def update_display():
 	try:
