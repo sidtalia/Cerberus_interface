@@ -9,8 +9,6 @@ import math as m
 import traceback
 from DAVID_link import *
 
-
-
 ins_link = INS(COM='/dev/ttyUSB1',baud = 921600)
 
 imu_quat = None
@@ -30,6 +28,11 @@ def vel_BF_cb(data):
 	V[1] = vx*m.cos(th) - vz*m.sin(th)
 	V[2] = vx*m.sin(th) + vz*m.cos(th)
 	V[3] = data.twist.covariance[0]
+	G = ins_link.IMU[3:6]
+	BO = np.array([0.15,0.075,0.0]) #body frame offset	
+	V[0] -= (G[1]*BO[2] - G[2]*BO[1])
+	V[1] -= (G[2]*BO[0] + G[0]*BO[2])
+	V[2] -= (G[1]*BO[0] + G[0]*BO[1])
 	if(time.time() - vel_time>=0.05):
 		vel_time = time.time()
 		ins_link.send_vel_BF(V) # body frame xyz is front right down
@@ -73,9 +76,9 @@ def main():
 		cur_odom.twist.twist.linear.x = state[5]
 		cur_odom.twist.twist.linear.y = state[4]
 		cur_odom.twist.twist.linear.z = -state[6]
-		cur_odom.twist.twist.angular.x = imu[1]
-		cur_odom.twist.twist.angular.y = imu[0]
-		cur_odom.twist.twist.angular.z = -imu[2]
+		cur_odom.twist.twist.angular.x = imu[4]
+		cur_odom.twist.twist.angular.y = imu[3]
+		cur_odom.twist.twist.angular.z = -imu[5]
 		odom_pub.publish(cur_odom)
 
 		drive_msg = AckermannDriveStamped()
