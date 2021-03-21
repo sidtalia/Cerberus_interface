@@ -16,6 +16,7 @@ ins_link = INS(COM='/dev/ttyUSB0',baud = 921600)
 imu_quat = None
 A = np.zeros(3)
 G = np.zeros(3)
+vel_time = time.time()
 def vel_BF_cb(data):
 	global ins_link
 	vx = data.twist.twist.linear.x
@@ -28,7 +29,9 @@ def vel_BF_cb(data):
 	V[1] = vx*m.cos(th) - vz*m.sin(th)
 	V[2] = vx*m.sin(th) + vz*m.cos(th)
 	V[3] = data.twist.covariance[0]
-	ins_link.send_vel_BF(V) # body frame xyz is front right down
+	if(time.time() - vel_time>=0.05):
+		vel_time = time.time()
+		ins_link.send_vel_BF(V) # body frame xyz is front right down
 
 def pos_cb(data):
 	global ins_link
