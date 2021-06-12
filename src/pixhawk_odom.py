@@ -12,6 +12,7 @@ from pymavlink import mavutil
 import math as m 
 import traceback
 
+
 imu_quat = None
 init_pos = np.zeros(3)
 A = np.zeros(3)
@@ -57,12 +58,12 @@ def handle_attitude(msg):
 	global imu_pub
 	attitude_data = (msg.roll, msg.pitch, msg.yaw, msg.rollspeed, 
 				msg.pitchspeed, msg.yawspeed)
-	yaw = -msg.yaw
-	yaw += m.pi/2
-	if(yaw>m.pi):
-		yaw -= 2*m.pi
-	if(yaw< -m.pi):
-		yaw += 2*m.pi
+	yaw = (m.pi/2) - msg.yaw
+	# yaw += m.pi/2
+	# if(yaw>m.pi):
+	# 	yaw -= 2*m.pi
+	# if(yaw< -m.pi):
+	# 	yaw += 2*m.pi
 
 	G = np.array([msg.rollspeed,msg.pitchspeed,-msg.yawspeed])
 	A[0] -= 9.89*m.sin(msg.pitch)
@@ -77,7 +78,7 @@ def handle_attitude(msg):
 	imu = Imu()
 	imu.header.stamp = rospy.Time.now()
 	imu.header.frame_id = "base_link"
-	imu_quat = quaternion_from_euler(msg.roll, msg.pitch, yaw)
+	imu_quat = quaternion_from_euler(msg.roll, -msg.pitch, yaw)
 	imu.orientation = Quaternion(*imu_quat)
 	imu.linear_acceleration.x = -A[0]
 	imu.linear_acceleration.y = -A[1]
@@ -100,7 +101,7 @@ def handle_position(msg):
 	global G
 	global fix_type
 	global init_pos
-	if(fix_type<3):
+	if(fix_type<3 and 0):
 		return
 	else:
 		if(np.all(init_pos)==0):
@@ -126,7 +127,6 @@ def handle_position(msg):
 		cur_odom.twist.twist.angular.x = G[1]
 		cur_odom.twist.twist.angular.y = G[0]
 		cur_odom.twist.twist.angular.z = -G[2]
-
 		odom_pub.publish(cur_odom)
 
 
@@ -183,13 +183,11 @@ def read_loop(m):
 			break
 		except Exception as e:
 			print(traceback.format_exc())
-		except:
-			pass
 		
 def main():
 	rate = 50
 	device = '/dev/ttyACM0'
-	baudrate = 115200
+	baudrate = 921600
 
 
 	# create a mavlink serial instance

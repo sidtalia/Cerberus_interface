@@ -1,4 +1,4 @@
-from DAVID_link import *
+from TRAC_link import *
 import time
 import os
 import traceback
@@ -12,7 +12,7 @@ from Tkinter import *
 log_file_name = 'INS_log_0.npy'
 log_file = []
 
-ins_link = INS(COM='/dev/ttyUSB1')
+ins_link = INS(COM='/dev/ttyUSB0')
 
 def update_display():
 	try:
@@ -67,12 +67,12 @@ def update_display():
 		gcs.Mag_X.configure(text = 'Mx = {} guass'.format( str( round(IMU[6], 2)) ))
 		gcs.Mag_Y.configure(text = 'My = {} guass'.format( str( round(IMU[7], 2)) ))
 		gcs.Mag_Z.configure(text = 'Mz = {} guass'.format( str( round(IMU[8], 2)) ))
-		gcs.airspeed.configure(text = 'airspeed = {} m/s'.format( str( round(ADS[0], 2)) ))
+		gcs.airspeed.configure(text = 'number of SVs used = {}'.format( str( round(ADS[0], 2)) ))
 		gcs.baro_alt.configure(text = 'baro alt = {} m'.format( str( round(ADS[1], 2)) ))
 		gcs.opticalFlow_X.configure(text = 'OPFlow X = {}'.format( str( round(OPFlow[0], 2)) ))
 		gcs.opticalFlow_Y.configure(text = 'OPFlow Y = {}'.format( str( round(OPFlow[1], 2)) ))
 		gcs.opticalFlow_SQ.configure(text = 'OPFlow SQ = {}'.format( str( round(OPFlow[2], 2)) ))
-		gcs.opticalFlow_use.configure(text = 'OPFlow use = {}'.format( str( round(OPFlow[3], 2)) ))
+		gcs.opticalFlow_use.configure(text = 'OPFlow use = false'.format( str( round(OPFlow[3], 2)) ))
 		if(ins_link.rec):
 			data = np.array([state[0],state[1],state[2],state[3],state[4],state[5],state[6],state[7],state[8],state[9],state[10],state[11],state[12],
 							Covariance[0],Covariance[1],Covariance[2],Covariance[3],max_exec_time,
@@ -81,9 +81,9 @@ def update_display():
 							IMU[0],IMU[1],IMU[2],IMU[3],IMU[4],IMU[5],IMU[6],IMU[7],IMU[8],
 							OPFlow[0],OPFlow[1],OPFlow[2],OPFlow[3]])
 			log_file.append(data)
-			plt.scatter(state[8],state[7])
-			plt.axis('equal')
-			plt.show()
+			# plt.scatter(state[8],state[7])
+			# plt.axis('equal')
+			# plt.show()
 		else:
 			if(len(log_file)):
 				a = time.localtime(time.time())
