@@ -42,3 +42,22 @@ Topic | Type | Description
 ------|------|------------
 `/car/t265/odom/sample` | [nav_msgs/Odometry](http://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html)| external velocity input
 
+## Running the bag data for analysis:
+Start a new terminal:
+1) start roscore:
+``` bash
+roscore
+```
+2) In a new tab, run the log_converter.py:
+```bash
+$ cd ~/catkin_ws/src/Cerberus_interface/src
+$ python log_converter.py
+```
+3) In another new terminal, run:
+```bash
+$ cd ~/catkin_ws/src/Cerberus_interface/bags/
+$ rosbag play -r 200.0 cerberus_pixh409_cmparison.bag
+```
+Once the bag has finished, go to the tab in which you ran the log converter and press Ctrl+C. If you get a index error, just repeat the process from step 2. On pressing Ctrl+C, you should be shown 4 graphs (one after another, you'll have to close one for the next to open) which show the performance comparison between the pixhawk running ArduPlane 4.0.9 and the cerberus INS.
+
+If you wish to compare against an older version, there is a bag for that too. Replace the 409 in the bag's name with 368 and you should be good to go. There may be spelling mistakes. 
