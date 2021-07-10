@@ -29,6 +29,16 @@ $ rosrun cerberus cerberus_link.py
 
 Note that the driver assumes that the INS is connected as '/dev/ttyUSB0' by default. This will be fixed soon to be parameterizable.
 
+### Note: Give the unit about 60 seconds after the green light starts blinking before running the ros-driver.
+
+## Running the GUI:
+Connect the system and run the following command:
+```bash
+$ python /catkin_ws/src/Cerberus_interface/src/GUI.py
+```
+Note that right now you can either run the ros-driver or the GUI, but not both at the same time. If there is a need for this, such a feature will be implemented in the future.
+
+
 ## API:
 The driver publishes the following topics:
 Topic | Type | Description

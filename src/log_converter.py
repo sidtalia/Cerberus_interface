@@ -11,6 +11,7 @@ fig = plt.figure()
 
 ahrs = []  # list to collect ahrs data from pixhawk
 cerb = []  # list to collect ahrs data from cerberus (just calling it cerb) 
+
 def odom_cb(msg):
     """
     odometry callback for pixhawk odometry message
