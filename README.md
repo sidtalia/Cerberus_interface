@@ -22,6 +22,13 @@ $ catkin_make
 
 The catkin make is necessary to make the system recognize this as a ros package.
 
+## Running the GUI:
+Connect the system and run the following command:
+```bash
+$ python /catkin_ws/src/Cerberus_interface/src/GUI.py
+```
+Note that right now you can either run the ros-driver or the GUI, but not both at the same time. If there is a need for this, such a feature will be implemented in the future. The GUI can be used for checking whether gps lock has been achieved. The current version of the hardware blinks a green light when it gets an initial lock but gives no indication of when position solution from the INS is available.
+
 ## Running the ros driver:
 ``` bash
 $ rosrun cerberus cerberus_link.py
@@ -30,13 +37,6 @@ $ rosrun cerberus cerberus_link.py
 Note that the driver assumes that the INS is connected as '/dev/ttyUSB0' by default. This will be fixed soon to be parameterizable.
 
 ### Note: Give the unit about 60 seconds after the green light starts blinking before running the ros-driver.
-
-## Running the GUI:
-Connect the system and run the following command:
-```bash
-$ python /catkin_ws/src/Cerberus_interface/src/GUI.py
-```
-Note that right now you can either run the ros-driver or the GUI, but not both at the same time. If there is a need for this, such a feature will be implemented in the future.
 
 
 ## API:
