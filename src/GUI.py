@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from TRAC_link import *
 import time
 import os
@@ -6,8 +7,8 @@ import matplotlib.pyplot as plt
 plt.ion()
 fig = plt.figure()
 plt.axis('equal')
-import Tkinter as tk
-from Tkinter import *
+import tkinter as tk
+from tkinter import *
 
 log_file_name = 'INS_log_0.npy'
 log_file = []

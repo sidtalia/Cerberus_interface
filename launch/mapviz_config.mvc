@@ -1,0 +1,65 @@
+capture_directory: ~
+fixed_frame: map
+target_frame: map
+fix_orientation: false
+rotate_90: false
+enable_antialiasing: true
+show_displays: true
+show_status_bar: true
+show_capture_tools: true
+window_width: 1855
+window_height: 1056
+view_scale: 3.518712
+offset_x: 540.4752
+offset_y: 190.4128
+use_latest_transforms: true
+background: "#a0a0a4"
+displays:
+  - type: mapviz_plugins/tile_map
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      custom_sources:
+        - base_url: http://localhost:8080/wmts/gm_layer/gm_grid/{level}/{x}/{y}.png
+          max_zoom: 15
+          name: google_maps
+          type: wmts
+      bing_api_key: ""
+      source: Stamen (terrain)
+  - type: mapviz_plugins/attitude_indicator
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /odom/cerberus
+      x: 0
+      y: 0
+      width: 310
+      height: 310
+  - type: mapviz_plugins/navsat
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /gps/cerberus
+      color: "#00ff00"
+      draw_style: lines
+      position_tolerance: 0
+      buffer_size: 0
+  - type: mapviz_plugins/odometry
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /odom/cerberus
+      color: "#ff0000"
+      draw_style: lines
+      position_tolerance: 0
+      buffer_size: 0
+      show_laps: false
+      show_covariance: false
+      show_all_covariances: false
+      static_arrow_sizes: false
+      arrow_size: 488
+      show_timestamps: 0

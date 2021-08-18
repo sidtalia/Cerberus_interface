@@ -84,7 +84,7 @@ def main():
 		NSF.position_covariance[0] = NSF.position_covariance[4] = ins_link.gps_data[6]
 		NSF.position_covariance[8] = ins_link.gps_data[7]
 		NSF.position_covariance_type = 3
-		NSF.status.status = ins_link.ADS[0]
+		NSF.status.status = int(ins_link.ADS[0])
 
 		navsat_pub.publish(NSF)
 
