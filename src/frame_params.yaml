@@ -1,0 +1,38 @@
+Lt: -0.3  # horizontal tail dist. from neutral point in meters
+elevator_ratio: 0.35  # ratio of elevator chord to horizontal stabilizer chord
+horizontal_stabilizer_ratio: 0.16 # ratio of horizontal stabilizer area to plane's bottom surface area -> this should be multiplied by 2 because theres 2 surfaces not one
+Lw: 0.2045
+aileron_ratio: 0.2 # ratio of aileron chord to wing chord
+aileron_wing_ratio: 0.71  # ratio of aileron to wing span
+Lr: 0.3
+rudder_ratio: 0.16  # ratio of rudder to vertical stabilizer
+vertical_stabilizer_ratio: 0.2 # ratio of vertical stabilizer area to plane side-area
+elevator_max: 15  # elevator deflection in degrees
+aileron_max: 15  # aileron deflection (one side) in degrees
+rudder_max: 25
+stall_speed: 15  # stall speed in m/s
+cruise_speed: 25  # cruise speed at which the system will operate
+level_speed: 30  # speed at which lift = weight of the plane with 0 elevator input
+land_speed: 20  # speed at which plane lands
+flap_speed: 20  # speed at which flaps are engaged
+cg_dist: -0.02  # distance between cog and col. +ve if cog is ahead of col (longitudenally stable)
+roll_Time_constant: 0.15
+pitch_Time_constant: 0.2
+yaw_Time_constant: 0.2
+altitudeTc: 2  # FBWB parameter 
+max_alt_rate: 10  # FBWB parameter 
+1_speed: 10.0 # level speed at 1/6 throttle
+2_speed: 15.0 # level speed at 2/6 throttle
+3_speed: 17.0 # level speed at 3/6 throttle 
+4_speed: 20.0 # level speed at 4/6 throttle
+5_speed: 30.0 # level speed at 5/6 throttle
+6_speed: 43.0 # level speed at 6/6 throttle
+g_limit: 80  # m/s/s accel limit
+trajectory_time_constant: 1 # in seconds
+rate_derivative_gain: 1.5
+roll_g_limit: 2
+force_error_gain: 0.3
+force_upper_limit: 500
+rlim_pitch: 1000 # rotation rate limit in deg/s
+rlim_roll: 1000
+rlim_yaw: 100
