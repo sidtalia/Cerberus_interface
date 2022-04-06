@@ -56,7 +56,7 @@ def wrap_180(ahrs):
     return ahrs
 
 odom_sub = rospy.Subscriber("odom/pixhawk",Odometry,odom_cb)  # subscriber for pixhawk/any other odometry publisher
-cerb_sub = rospy.Subscriber("odom/cerberus",Odometry,cerb_cb)  # subscriber for cerberus odometry publisher
+cerb_sub = rospy.Subscriber("odom/mushr",Odometry,cerb_cb)  # subscriber for cerberus odometry publisher
 rospy.init_node("logger")  # init node
 r = rospy.Rate(1)  # 1 second rate
 while not rospy.is_shutdown():
@@ -85,7 +85,7 @@ plt.legend()
 
 plt.subplot(312)
 plt.title("Pitch angle in degrees")
-plt.plot(time, -ahrs[:,1],label="Pixhawk pitch in degrees")
+plt.plot(time, ahrs[:,1],label="Pixhawk pitch in degrees")
 plt.plot(time_cerb,cerb[:,1],label="Cerberus pitch in degrees")
 plt.xlabel("Time in seconds")
 plt.ylabel("Angle in degrees")

@@ -76,18 +76,18 @@ Visualization Manager:
       Enabled: true
       Keep: 10000
       Name: Odometry
-      Position Tolerance: 0.5
+      Position Tolerance: 0.100000001
       Shape:
         Alpha: 1
         Axes Length: 0.300000012
         Axes Radius: 0.0299999993
         Color: 255; 255; 0
-        Head Length: 0.300000012
-        Head Radius: 0.5
-        Shaft Length: 1
+        Head Length: 0.100000001
+        Head Radius: 0.100000001
+        Shaft Length: 0.5
         Shaft Radius: 0.0500000007
         Value: Arrow
-      Topic: /odom/cerberus
+      Topic: /odom/mushr
       Unreliable: false
       Value: true
     - Class: rviz/Axes
@@ -191,15 +191,15 @@ Visualization Manager:
       Enabled: true
       Keep: 10000
       Name: Odometry
-      Position Tolerance: 0.5
+      Position Tolerance: 0.100000001
       Shape:
         Alpha: 1
         Axes Length: 1
         Axes Radius: 0.100000001
         Color: 85; 255; 127
-        Head Length: 0.300000012
-        Head Radius: 0.5
-        Shaft Length: 1
+        Head Length: 0.100000001
+        Head Radius: 0.100000001
+        Shaft Length: 0.5
         Shaft Radius: 0.0500000007
         Value: Arrow
       Topic: /odom/pixhawk
@@ -230,16 +230,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 58.7609024
+      Distance: 45.2118187
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 3.10278606
-        Y: -3.88131356
-        Z: -0.00486792298
+        X: -3.51501727
+        Y: 10.0856905
+        Z: 0.0105562937
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
@@ -266,5 +266,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1855
-  X: 65
-  Y: 24
+  X: 75
+  Y: 34

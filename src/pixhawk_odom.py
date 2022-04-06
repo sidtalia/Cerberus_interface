@@ -119,14 +119,16 @@ def handle_position(msg):
 		cur_odom.pose.pose.position.x = posNED[1] # convert from NED to ENU
 		cur_odom.pose.pose.position.y = posNED[0]
 		cur_odom.pose.pose.position.z = -posNED[2]
+		cur_odom.pose.covariance[0] = position_variance
 		if imu_quat is not None:
 			cur_odom.pose.pose.orientation = Quaternion(*imu_quat)
-		cur_odom.twist.twist.linear.x = msg.vy
-		cur_odom.twist.twist.linear.y = msg.vx
-		cur_odom.twist.twist.linear.z = -msg.vz
+		cur_odom.twist.twist.linear.x = 1e-2*msg.vy
+		cur_odom.twist.twist.linear.y = 1e-2*msg.vx
+		cur_odom.twist.twist.linear.z = -1e-2*msg.vz
 		cur_odom.twist.twist.angular.x = G[1]
 		cur_odom.twist.twist.angular.y = G[0]
 		cur_odom.twist.twist.angular.z = -G[2]
+		cur_odom.twist.covariance[0] = speed_variance
 		odom_pub.publish(cur_odom)
 
 

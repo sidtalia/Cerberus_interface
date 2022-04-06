@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="cerberus" type="pixhawk_odom.py" name="INS1" />
+    <node pkg="cerberus" type="mushr_odom.py" name="INS2" />
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find cerberus)/rviz/cerberus.rviz" /> <!-- this launches rviz -->
+    <node args="-q -a -o $(find cerberus)/bags/comparison_mushr_pixh.bag" name="rosbag_record" output="screen" pkg="rosbag" type="record"/>
+</launch>
